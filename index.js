@@ -30,18 +30,19 @@ async function run() {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = "Write a story about a magic backpack."
-    let result = ''
+    let answer = ''
     try{
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
+
         console.log(text);
-        result = text;
+        answer = text;
     }catch(error){
         console.log(error);
-        result = error;
+        answer = error;
     }
-   return result;
+    return answer;
 }
 
 console.log('hello')
