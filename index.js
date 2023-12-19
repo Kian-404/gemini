@@ -9,12 +9,12 @@ const port = 3000;
 app.get('/', async (req, res) => {
     console.log(process.env.API_KEY);
     // console.log(req);
-    await run();
+    let answer = await run();
     res.json({
         data:{
             name: 'test',
-            age: 20
-
+            age: 20,
+            answer
         }
     })
     // res.send('Hello World!');
@@ -30,15 +30,18 @@ async function run() {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = "Write a story about a magic backpack."
+    let result = ''
     try{
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
         console.log(text);
+        result = text;
     }catch(error){
         console.log(error);
+        result = error;
     }
-   
+   return result;
 }
 
 console.log('hello')
