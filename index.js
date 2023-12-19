@@ -6,10 +6,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     console.log(process.env.API_KEY);
     // console.log(req);
-    run();
+    await run();
     res.json({
         data:{
             name: 'test',
@@ -30,11 +30,15 @@ async function run() {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = "Write a story about a magic backpack."
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    console.log(text);
+    try{
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        console.log(text);
+    }catch(error){
+        console.log(error);
+    }
+   
 }
 
 console.log('hello')
